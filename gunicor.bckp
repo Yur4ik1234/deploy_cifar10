@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn server for {{ host }}
+After=network.target
+
+[Service]
+Restart=on-failure
+User=root
+Group=root
+WorkingDirectory=/home/{{ ansible_user }}/sites/
+EnvironmentFile=/home/{{ ansible_user }}/sites/.env
+
+ExecStart=/home/{{ ansible_user }}/sites/{{ host }}/venv/bin/gunicorn  --bind unix:{{ host }}.socket app:app
+
+[Install]
+WantedBy=multi-user.target
+
+
